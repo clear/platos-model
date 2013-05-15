@@ -1,0 +1,22 @@
+{
+	"name": "platos-model",
+	"version": "0.1.0",
+	"private": true,
+	"main": "./lib/platos-model",
+	"author": {
+		"name": "David N. Johnson"
+	},
+	"dependencies": {
+		"mongojs": "0.7.x"
+	},
+	"devDependencies": {
+		"mocha": "1.9.x",
+		"should": "1.2.x"
+	},
+	"engines": {
+		"node": ">= 0.6.0"
+	},
+	"scripts": {
+		"test": "make test"
+	}
+}

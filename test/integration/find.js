@@ -91,6 +91,10 @@ describe('INTEGRATION - FIND', function () {
 			});
 		});
 		
+		after(function (done) {
+			Model._db.collection('Class').drop(done);
+		});
+		
 		it("Class.find() should return all documents", function (done) {
 			Class.find(function (err, objects) {
 				_.isNull(err).should.be.ok;
@@ -116,10 +120,6 @@ describe('INTEGRATION - FIND', function () {
 
 				done();
 			});
-		});
-		
-		after(function (done) {
-			Model._db.collection('Class').drop(done);
 		});
 	});
 });

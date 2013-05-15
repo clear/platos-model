@@ -48,7 +48,9 @@ More info:
     "should",
 	"it",
 	"before",
-	"after"
+	"after",
+	"beforeEach",
+	"afterEach"
   ],
 
   /*** Enforcing options ***/

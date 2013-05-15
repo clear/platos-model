@@ -46,7 +46,9 @@ More info:
   "predef": [
     "describe",
     "should",
-	"it"
+	"it",
+	"before",
+	"after"
   ],
 
   /*** Enforcing options ***/

@@ -6,6 +6,7 @@ describe('INTEGRATION - UPDATE', function () {
 	var instance;
 	
 	beforeEach(function (done) {
+		//Insert one document into the database to test updating against
 		Model._db.collection('Class').drop(function () {
 			var Class = Model.create('Class');
 			instance = new Class();
@@ -23,7 +24,8 @@ describe('INTEGRATION - UPDATE', function () {
 		var _id = instance._id;
 		_id.should.be.ok;
 		
-		instance.save(function () {
+		instance.save(function (err) {
+			_.isNull(err).should.be.ok;
 			instance._id.should.equal(_id);
 			
 			done();

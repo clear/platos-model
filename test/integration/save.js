@@ -10,11 +10,10 @@ before(function (done) {
 });
 
 after(function (done) {
-	done();
-	//Model._db.dropDatabase(done);
+	Model._db.dropDatabase(done);
 });
 
-describe('INTEGRATION - SAVE', function () {	
+describe('INTEGRATION - SAVE', function () {
 	//Note: The very first integration test will be slow because it creates the database
 	it("Class.save() with no properties should save a document with only _id", function (done) {
 		var Class = Model.create('Class');

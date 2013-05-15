@@ -3,7 +3,7 @@ var _ = require('underscore');
 var Model = require('../../lib/platos-model');
 
 describe('INTEGRATION - FIND', function () {
-	describe('single', function () {
+	describe('from single', function () {
 		var Class, instance;
 		
 		before(function (done) {
@@ -74,7 +74,7 @@ describe('INTEGRATION - FIND', function () {
 		});
 	});
 	
-	describe('multiple', function () {
+	describe('from multiple', function () {
 		var Class, instance, instance2;
 		
 		before(function (done) {

@@ -1,5 +1,6 @@
 {
 	"name": "platos-model",
+	"description": "Schema-less, multi-tenancy ODM for Mongo.",
 	"version": "0.1.0",
 	"private": true,
 	"main": "./lib/platos-model",
@@ -7,7 +8,8 @@
 		"name": "David N. Johnson"
 	},
 	"dependencies": {
-		"mongojs": "0.7.x"
+		"mongojs": "0.7.x",
+		"hooks": "git://github.com/JamesHight/hooks-js.git"
 	},
 	"devDependencies": {
 		"mocha": "1.9.x",

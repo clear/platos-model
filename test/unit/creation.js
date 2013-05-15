@@ -1,9 +1,9 @@
 require('should');
 var _ = require('underscore');
 var sinon = require('sinon');
-var Model = require('../lib/platos-model');
+var Model = require('../../lib/platos-model');
 
-describe('UNIT', function () {
+describe('UNIT - CREATION', function () {
 	/*
 		For the below tests, assume:
 		'Model' is the package

@@ -10,7 +10,8 @@ before(function (done) {
 });
 
 after(function (done) {
-	Model._db.dropDatabase(done);
+	done();
+	//Model._db.dropDatabase(done);
 });
 
 describe('INTEGRATION - SAVE', function () {

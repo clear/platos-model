@@ -46,7 +46,11 @@ More info:
   "predef": [
     "describe",
     "should",
-	"it"
+	"it",
+	"before",
+	"after",
+	"beforeEach",
+	"afterEach"
   ],
 
   /*** Enforcing options ***/
@@ -75,7 +79,6 @@ More info:
   "boss":         false,
   "debug":        false,
   "eqnull":       true,
-  "es5":          true,
   "esnext":       true,
   "evil":         false,
   "expr":         true,

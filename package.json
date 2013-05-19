@@ -1,11 +1,14 @@
 {
 	"name": "platos-model",
-	"description": "Schema-less, multi-tenancy ODM for Mongo.",
+	"description": "Schema-less, multi-tenancy ODM for MongoDB.",
 	"version": "0.1.0",
-	"private": true,
 	"main": "./lib/platos-model",
 	"author": {
 		"name": "David N. Johnson"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/clear/platos-model.git"
 	},
 	"dependencies": {
 		"mongojs": "0.7.x",

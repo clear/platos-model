@@ -1,29 +1,29 @@
-require('should');
-var _ = require('underscore');
-var Model = require('../../lib/platos-model');
+require("should");
+var _ = require("underscore");
+var Model = require("../../lib/platos-model");
 
-describe('INTEGRATION - REMOVE', function () {
+describe("INTEGRATION - REMOVE", function () {
 	var Class, instance, instance2;
 	
 	beforeEach(function (done) {
 		//Insert a document into the database to test finding
-		Model._db.collection('Class').drop(function () {
-			Class = Model.create('Class');
+		Model._db.collection("Class").drop(function () {
+			Class = Model.create("Class");
 			instance = new Class();
-			instance.test = 'property';
+			instance.test = "property";
 
 			instance.save(function () {
-				instance2 = new Class({ test: 'property', test2: 'property2' });
+				instance2 = new Class({ test: "property", test2: "property2" });
 				instance2.save(done);
 			});
 		});
 	});
 	
 	afterEach(function (done) {
-		Model._db.collection('Class').drop(done);
+		Model._db.collection("Class").drop(done);
 	});
 	
-	describe('static method', function () {
+	describe("static method", function () {
 		it("Class.remove() should remove all documents", function (done) {
 			Class.remove(function (err) {
 				_.isNull(err).should.be.ok;
@@ -37,7 +37,7 @@ describe('INTEGRATION - REMOVE', function () {
 		});
 
 		it("Class.remove({ test2: 'property2' }) should remove one document and leave the other", function (done) {
-			Class.remove({ test2: 'property2' }, function (err) {
+			Class.remove({ test2: "property2" }, function (err) {
 				_.isNull(err).should.be.ok;
 
 				//Ensure removed
@@ -50,7 +50,7 @@ describe('INTEGRATION - REMOVE', function () {
 		});
 		
 		it("Class.remove({ missing: 'property' }) should not remove any documents", function (done) {
-			Class.remove({ test2: 'property' }, function (err) {
+			Class.remove({ test2: "property" }, function (err) {
 				_.isNull(err).should.be.ok;
 
 				//Ensure removed
@@ -62,7 +62,7 @@ describe('INTEGRATION - REMOVE', function () {
 		});
 	});
 	
-	describe('instance method', function () {
+	describe("instance method", function () {
 		it("instance.remove() should remove the document called on", function (done) {
 			instance.remove(function (err) {
 				_.isNull(err).should.be.ok;

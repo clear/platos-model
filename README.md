@@ -1,6 +1,8 @@
 # Plato's Model
 **A schema-less, multi-tenancy ODM for MongoDB.**
+
 [![Build Status](https://travis-ci.org/clear/platos-model.png)](https://travis-ci.org/clear/platos-model)
+[![NPM version](https://badge.fury.io/js/platos-model.png)](http://badge.fury.io/js/platos-model)
 
 ## Installation
 

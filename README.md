@@ -62,3 +62,17 @@ Likewise, you can easily search tenant-specific collections:
 	Customer.find("tenant", { name: "Bob" }, function (err, customers) {
 		//'customers' will contain an Array of customers named Bob in the 'tenant.Customer' collection.
 	});
+	
+## Contributing
+
+All contributions are welcome! I'm happy to accept pull requests as long as they conform to the following guidelines:
+
+- Keep the API clean, we prefer ease-of-use over extra features
+- Don't break the build and add tests where necessary
+- Keep the coding style consistent, we follow [JSHint's Coding Style](http://www.jshint.com/hack/)
+
+Otherwise, please [open an issue](https://github.com/clear/platos-model/issues/new) if you have any suggestions or find a bug.
+
+## License
+
+[The MIT License (MIT) Copyright](https://github.com/clear/platos-model/blob/master/LICENSE.md) - (c) 2013 Clear Learning Systems

@@ -1,19 +1,19 @@
 require("should");
 var _ = require("underscore");
-var Model = require("../../lib/platos-model");
+var Platos = require("../../lib/platos-model");
 
 //Global setup and teardown for integration tests
 before(function (done) {
-	Model.connect("platos-model-test");
+	Platos.connect("platos-model-test");
 	
-	Model._db.dropDatabase(done);
+	Platos._db.dropDatabase(done);
 });
 
 describe("INTEGRATION - SAVE", function () {
 	//Note: The very first integration test will be slow because it creates the database
-	it("Class.save() with no properties should save a document with only _id", function (done) {
-		var Class = Model.create("Class");
-		var instance = new Class();
+	it("model.save() with no properties should save a document with only _id", function (done) {
+		var Model = Platos.create("Model");
+		var instance = new Model();
 		
 		instance.save(function (err, document) {
 			_.isNull(err).should.be.ok;
@@ -24,9 +24,9 @@ describe("INTEGRATION - SAVE", function () {
 		});
 	});
 	
-	it("Class.save() should add _id to the model instance", function (done) {
-		var Class = Model.create("Class");
-		var instance = new Class();
+	it("model.save() should add _id to the Platos instance", function (done) {
+		var Model = Platos.create("Model");
+		var instance = new Model();
 		
 		instance.should.not.have.property("_id");
 		
@@ -36,9 +36,9 @@ describe("INTEGRATION - SAVE", function () {
 		});
 	});
 	
-	it("Class.save() when properties exist should save a document with those properties", function (done) {
-		var Class = Model.create("Class");
-		var instance = new Class();
+	it("model.save() when properties exist should save a document with those properties", function (done) {
+		var Model = Platos.create("Model");
+		var instance = new Model();
 		instance.test = "property";
 		
 		instance.save(function (err, document) {

@@ -1,28 +1,28 @@
 require("should");
 var sinon = require("sinon");
-var Model = require("../../lib/platos-model");
+var Platos = require("../../lib/platos-model");
 
 describe("UNIT - HOOKS", function () {
-	it("Class.pre() hook should be called before instance.save()", function (done) {
-		var Class = Model.create("Class");
+	it("Model.pre() hook should be called before instance.save()", function (done) {
+		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
 		//Main method, will be called second
-		Class.prototype.test = function (callback) {
+		Model.prototype.test = function (callback) {
 			stub.callCount.should.equal(1);
 			stub();
 			callback();
 		};
 		
 		//Pre-hook will be called first
-		Class.pre("test", function (next) {
+		Model.pre("test", function (next) {
 			stub.callCount.should.equal(0);
 			stub();
 			
 			next();
 		});
 		
-		var instance = new Class();
+		var instance = new Model();
 		
 		//Now run chain, callback will be called last
 		instance.test(function () {
@@ -32,26 +32,26 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Class.post() hook should be called after instance.save()", function (done) {
-		var Class = Model.create("Class");
+	it("Model.post() hook should be called after instance.save()", function (done) {
+		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
 		//Main method, will be called first
-		Class.prototype.test = function (callback) {
+		Model.prototype.test = function (callback) {
 			stub.callCount.should.equal(0);
 			stub();
 			callback();
 		};
 		
 		//Post-hook will be called second
-		Class.post("test", function (next) {
+		Model.post("test", function (next) {
 			stub.callCount.should.equal(1);
 			stub();
 			
 			next();
 		});
 		
-		var instance = new Class();
+		var instance = new Model();
 		
 		//Now run chain, callback will be called last
 		instance.test(function () {
@@ -61,19 +61,19 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Class.pre() and Class.post() hooks should be called in proper sequence", function (done) {
-		var Class = Model.create("Class");
+	it("Model.pre() and Model.post() hooks should be called in proper sequence", function (done) {
+		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
 		//Main method, will be called second
-		Class.prototype.test = function (callback) {
+		Model.prototype.test = function (callback) {
 			stub.callCount.should.equal(1);
 			stub();
 			callback();
 		};
 		
 		//Pre-hook will be called first
-		Class.pre("test", function (next) {
+		Model.pre("test", function (next) {
 			stub.callCount.should.equal(0);
 			stub();
 			
@@ -81,14 +81,14 @@ describe("UNIT - HOOKS", function () {
 		});
 		
 		//Post-hook will be called third
-		Class.post("test", function (next) {
+		Model.post("test", function (next) {
 			stub.callCount.should.equal(2);
 			stub();
 			
 			next();
 		});
 		
-		var instance = new Class();
+		var instance = new Model();
 		
 		//Now run chain, callback will be called last
 		instance.test(function () {
@@ -98,39 +98,39 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Multiple calls to Class.pre() should be called in the same sequence they're defined", function (done) {
-		var Class = Model.create("Class");
+	it("Multiple calls to Model.pre() should be called in the same sequence they're defined", function (done) {
+		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
 		//Main method, will be called second
-		Class.prototype.test = function (callback) {
+		Model.prototype.test = function (callback) {
 			stub.callCount.should.equal(3);
 			stub();
 			callback();
 		};
 		
-		Class.pre("test", function (next) {
+		Model.pre("test", function (next) {
 			stub.callCount.should.equal(0);
 			stub();
 			
 			next();
 		});
 		
-		Class.pre("test", function (next) {
+		Model.pre("test", function (next) {
 			stub.callCount.should.equal(1);
 			stub();
 			
 			next();
 		});
 		
-		Class.pre("test", function (next) {
+		Model.pre("test", function (next) {
 			stub.callCount.should.equal(2);
 			stub();
 			
 			next();
 		});
 		
-		var instance = new Class();
+		var instance = new Model();
 		
 		instance.test(function () {
 			stub.callCount.should.equal(4);
@@ -139,20 +139,20 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Class.pre() can mutate the arguments before reaching the method", function (done) {
-		var Class = Model.create("Class");
+	it("Model.pre() can mutate the arguments before reaching the method", function (done) {
+		var Model = Platos.create("Model");
 		
-		Class.prototype.test = function (argument) {
+		Model.prototype.test = function (argument) {
 			argument.should.equal("second");
 			done();
 		};
 		
-		Class.pre("test", function (next, argument) {
+		Model.pre("test", function (next, argument) {
 			argument.should.equal("first");
 			next("second");
 		});
 		
-		var instance = new Class();
+		var instance = new Model();
 		
 		instance.test("first");
 	});
@@ -160,20 +160,20 @@ describe("UNIT - HOOKS", function () {
 	//Warning: This particular test will fail using the npm version of hooks.js - there"s
 	//a bug passing arguments back to the original callback which hasn"t been merged in, so
 	//we"re using this repo instead - git://github.com/JamesHight/hooks-js.git
-	it("Class.pre() with callback can mutate the arguments before reaching the method", function (done) {
-		var Class = Model.create("Class");
+	it("Model.pre() with callback can mutate the arguments before reaching the method", function (done) {
+		var Model = Platos.create("Model");
 		
-		Class.prototype.test = function (argument, callback) {
+		Model.prototype.test = function (argument, callback) {
 			argument.should.equal("turned my");
 			callback("dad on");
 		};
 		
-		Class.pre("test", function (next, argument, callback) {
+		Model.pre("test", function (next, argument, callback) {
 			argument.should.equal("she");
 			next("turned my", callback);
 		});
 		
-		var instance = new Class();
+		var instance = new Model();
 		
 		instance.test("she", function (argument) {
 			argument.should.equal("dad on");

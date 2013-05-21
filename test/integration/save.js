@@ -11,7 +11,7 @@ before(function (done) {
 
 describe("INTEGRATION - SAVE", function () {
 	//Note: The very first integration test will be slow because it creates the database
-	it("Model.save() with no properties should save a document with only _id", function (done) {
+	it("model.save() with no properties should save a document with only _id", function (done) {
 		var Model = Platos.create("Model");
 		var instance = new Model();
 		
@@ -24,7 +24,7 @@ describe("INTEGRATION - SAVE", function () {
 		});
 	});
 	
-	it("Model.save() should add _id to the Platos instance", function (done) {
+	it("model.save() should add _id to the Platos instance", function (done) {
 		var Model = Platos.create("Model");
 		var instance = new Model();
 		
@@ -36,7 +36,7 @@ describe("INTEGRATION - SAVE", function () {
 		});
 	});
 	
-	it("Model.save() when properties exist should save a document with those properties", function (done) {
+	it("model.save() when properties exist should save a document with those properties", function (done) {
 		var Model = Platos.create("Model");
 		var instance = new Model();
 		instance.test = "property";

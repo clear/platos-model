@@ -44,6 +44,12 @@ And of course, this is easily saved to MongoDB:
 		//'err' will contain any errors
 		//'customer' will contain the newly saved document => { "name": "Bob", "balance": 15 }
 	});
+	
+Once saved, you can retrieve the document again with the static `Model.find()` method:
+
+	Customer.find({ balance: 15 }, function (err, customers) {
+		//'customers' will contain an Array of all customers with a balance of 15
+	});
 
 ### Multi-tenancy
 
@@ -54,5 +60,5 @@ If you're building a web app, you'll probably have multiple clients running on t
 Likewise, you can easily search tenant-specific collections:
 
 	Customer.find("tenant", { name: "Bob" }, function (err, customers) {
-		//'customers' will contain a list of customers named Bob in the 'tenant.Customer' collection.
+		//'customers' will contain an Array of customers named Bob in the 'tenant.Customer' collection.
 	});

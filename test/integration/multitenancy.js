@@ -4,11 +4,11 @@ var Platos = require("../../lib/platos-model");
 
 describe("INTEGRATION - MULTITENANCY", function () {
 	beforeEach(function (done) {
-		Platos._db.dropDatabase(done);
-	});
-	
-	afterEach(function (done) {
-		Platos._db.dropDatabase(done);
+		Platos._db.collection("Model").drop(function () {
+			Platos._db.collection("tenant.Model").drop(function () {
+				done();
+			});
+		});
 	});
 	
 	it("model.save('tenant') and Model.find('tenant') should save and retrieve document from a tenant-specific collection", function (done) {

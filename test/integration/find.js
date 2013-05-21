@@ -33,6 +33,15 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
+		it("Model.find() should return instances of Model", function (done) {
+			Model.find(function (err, objects) {
+				_.isFunction(objects[0].save).should.be.ok;
+				_.isFunction(objects[0].remove).should.be.ok;
+				
+				done();
+			});
+		});
+		
 		it("Model.find({ _id: _id }) should return a single document matching _id", function (done) {
 			Model.find({ _id: instance._id }, function (err, objects) {
 				objects.length.should.equal(1);

@@ -30,7 +30,6 @@ There's no need to define a schema, we're using document storage so you shouldn'
 		this.balance -= amount;
 	};
 	
-
 ### Instantiating your Model
 
 Following along from the example above, you'll want to create an instance of your Model:
@@ -42,7 +41,38 @@ Following along from the example above, you'll want to create an instance of you
 And of course, this is easily saved to MongoDB:
 
 	bob.save(function (err, customer) {
-		//err will contain any errors
-		//customer will contain the newly saved document
+		//'err' will contain any errors
+		//'customer' will contain the newly saved document => { "name": "Bob", "balance": 15 }
+	});
+	
+Once saved, you can retrieve the document again with the static `Model.find()` method:
+
+	Customer.find({ balance: 15 }, function (err, customers) {
+		//'customers' will contain an Array of all customers with a balance of 15
 	});
 
+### Multi-tenancy
+
+If you're building a web app, you'll probably have multiple clients running on the same codebase. It's easy to store different clients' data into separate collections with multi-tenancy:
+
+	bob.save("tenant", function (err, customer) { });
+	
+Likewise, you can easily search tenant-specific collections:
+
+	Customer.find("tenant", { name: "Bob" }, function (err, customers) {
+		//'customers' will contain an Array of customers named Bob in the 'tenant.Customer' collection.
+	});
+	
+## Contributing
+
+All contributions are welcome! I'm happy to accept pull requests as long as they conform to the following guidelines:
+
+- Keep the API clean, we prefer ease-of-use over extra features
+- Don't break the build and add tests where necessary
+- Keep the coding style consistent, we follow [JSHint's Coding Style](http://www.jshint.com/hack/)
+
+Otherwise, please [open an issue](https://github.com/clear/platos-model/issues/new) if you have any suggestions or find a bug.
+
+## License
+
+[The MIT License (MIT) Copyright](https://github.com/clear/platos-model/blob/master/LICENSE.md) - (c) 2013 Clear Learning Systems

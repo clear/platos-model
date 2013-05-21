@@ -1,16 +1,16 @@
 require("should");
 var _ = require("underscore");
-var Model = require("../../lib/platos-model");
+var Platos = require("../../lib/platos-model");
 
 describe("INTEGRATION - FIND", function () {
 	describe("from single", function () {
-		var Class, instance;
+		var Model, instance;
 		
 		before(function (done) {
 			//Insert a document into the database to test finding
-			Model._db.collection("Class").drop(function () {
-				Class = Model.create("Class");
-				instance = new Class();
+			Platos._db.collection("Model").drop(function () {
+				Model = Platos.create("Model");
+				instance = new Model();
 				instance.test = "property";
 
 				instance.save(done);
@@ -18,11 +18,11 @@ describe("INTEGRATION - FIND", function () {
 		});
 		
 		after(function (done) {
-			Model._db.collection("Class").drop(done);
+			Platos._db.collection("Model").drop(done);
 		});
 		
-		it("Class.find() should return all documents", function (done) {
-			Class.find(function (err, objects) {
+		it("Model.find() should return all documents", function (done) {
+			Model.find(function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance._id).should.be.ok;
@@ -33,8 +33,17 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Class.find({ _id: _id }) should return a single document matching _id", function (done) {
-			Class.find({ _id: instance._id }, function (err, objects) {
+		it("Model.find() should return instances of Model", function (done) {
+			Model.find(function (err, objects) {
+				_.isFunction(objects[0].save).should.be.ok;
+				_.isFunction(objects[0].remove).should.be.ok;
+				
+				done();
+			});
+		});
+		
+		it("Model.find({ _id: _id }) should return a single document matching _id", function (done) {
+			Model.find({ _id: instance._id }, function (err, objects) {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance._id).should.be.ok;
 				objects[0].should.have.property("test");
@@ -44,8 +53,8 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Class.find({ test: 'property' }) should return a single document matching test property", function (done) {
-			Class.find({ test: "property" }, function (err, objects) {
+		it("Model.find({ test: 'property' }) should return a single document matching test property", function (done) {
+			Model.find({ test: "property" }, function (err, objects) {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance._id).should.be.ok;
 				objects[0].should.have.property("test");
@@ -55,8 +64,8 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Class.find({ test: 'missing' }) should not return any documents", function (done) {
-			Class.find({ test: "missing" }, function (err, objects) {
+		it("Model.find({ test: 'missing' }) should not return any documents", function (done) {
+			Model.find({ test: "missing" }, function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(0);
 				
@@ -64,8 +73,8 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Class.find({ missing: 'property' }) should not return any documents", function (done) {
-			Class.find({ missing: "property" }, function (err, objects) {
+		it("Model.find({ missing: 'property' }) should not return any documents", function (done) {
+			Model.find({ missing: "property" }, function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(0);
 				
@@ -75,28 +84,28 @@ describe("INTEGRATION - FIND", function () {
 	});
 	
 	describe("from multiple", function () {
-		var Class, instance, instance2;
+		var Model, instance, instance2;
 		
 		before(function (done) {
 			//Insert a document into the database to test finding
-			Model._db.collection("Class").drop(function () {
-				Class = Model.create("Class");
-				instance = new Class();
+			Platos._db.collection("Model").drop(function () {
+				Model = Platos.create("Model");
+				instance = new Model();
 				instance.test = "property";
 
 				instance.save(function () {
-					instance2 = new Class({ test: "property", test2: "property2" });
+					instance2 = new Model({ test: "property", test2: "property2" });
 					instance2.save(done);
 				});
 			});
 		});
 		
 		after(function (done) {
-			Model._db.collection("Class").drop(done);
+			Platos._db.collection("Model").drop(done);
 		});
 		
-		it("Class.find() should return all documents", function (done) {
-			Class.find(function (err, objects) {
+		it("Model.find() should return all documents", function (done) {
+			Model.find(function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(2);
 				
@@ -104,16 +113,16 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Class.find({ test: 'property' }) should return both documents matching test property", function (done) {
-			Class.find({ test: "property" }, function (err, objects) {
+		it("Model.find({ test: 'property' }) should return both documents matching test property", function (done) {
+			Model.find({ test: "property" }, function (err, objects) {
 				objects.length.should.equal(2);
 
 				done();
 			});
 		});
 		
-		it("Class.find({ test2: 'property2' }) should return the document matching test2 property", function (done) {
-			Class.find({ test2: "property2" }, function (err, objects) {
+		it("Model.find({ test2: 'property2' }) should return the document matching test2 property", function (done) {
+			Model.find({ test2: "property2" }, function (err, objects) {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance2._id).should.be.ok;
 				objects[0].should.have.property("test2");

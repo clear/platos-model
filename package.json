@@ -1,7 +1,7 @@
 {
 	"name": "platos-model",
 	"description": "Schema-less, multi-tenancy ODM for MongoDB.",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"main": "./lib/platos-model",
 	"author": {
 		"name": "David N. Johnson"

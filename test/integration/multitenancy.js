@@ -15,7 +15,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 		var Model = Platos.create("Model");
 		var tenant = new Model({ tenant: "property" });
 		
-		tenant.save('tenant', function (err, document) {
+		tenant.save("tenant", function (err, document) {
 			_.isNull(err).should.be.ok;
 			document.should.have.property("tenant");
 			

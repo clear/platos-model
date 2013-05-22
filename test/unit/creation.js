@@ -18,7 +18,7 @@ describe("UNIT - CREATION", function () {
 		var instance = new Model();
 		
 		_.isObject(instance).should.be.ok;
-		instance.should.have.property('_meta');
+		instance.should.have.property("_meta");
 		instance.hasOwnProperty("_meta").should.not.be.ok;
 	});
 	

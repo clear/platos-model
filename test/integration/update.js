@@ -60,8 +60,52 @@ describe("INTEGRATION - UPDATE", function () {
 		});
 	});
 	
-	describe("Model.update()", function () {
-		it("should update document without inserting another", function (done) {
+	describe("instance method", function () {
+		it("model.update() from existing Model should update document without inserting another", function (done) {
+			var _id = instance._id;
+			instance.test2 = "property2";
+					
+			instance.update([ "test" ], function (err) {
+				_.isNull(err).should.be.ok;
+				
+				//Re-find
+				Model.find(function (err, objects) {
+					_.isNull(err).should.be.ok;
+					_.isArray(objects).should.be.ok;
+					objects.length.should.equal(1);
+					objects[0]._id.equals(_id).should.be.ok;
+					objects[0].should.have.property("test");
+					objects[0].should.have.property("test2");
+					
+					done();
+				});
+			});
+		});
+		
+		it("model.update() from new Model should update document without inserting another", function (done) {
+			var _id = instance._id;
+			var newInstance = new Model({ test: "property", test2: "property2" });
+		
+			newInstance.update([ "test" ], function (err) {
+				_.isNull(err).should.be.ok;
+				
+				//Re-find
+				Model.find(function (err, objects) {
+					_.isNull(err).should.be.ok;
+					_.isArray(objects).should.be.ok;
+					objects.length.should.equal(1);
+					objects[0]._id.equals(_id).should.be.ok;
+					objects[0].should.have.property("test");
+					objects[0].should.have.property("test2");
+					
+					done();
+				});
+			});
+		});
+	});
+	
+	describe("static method", function () {
+		it("Model.update() should update document without inserting another", function (done) {
 			var _id = instance._id;
 			_id.should.be.ok;
 		

@@ -34,7 +34,7 @@ There's no need to define a schema, we're using document storage so you shouldn'
 
 Following along from the example above, you'll want to create an instance of your Model:
 
-	var bob = new Customer({ name: "Bob" });
+	var bob = new Customer({ name: "Bob", email: "bob@example.com" });
 	bob.spend(5);
 	//Bob now has a balance of $15
 	
@@ -50,6 +50,18 @@ Once saved, you can retrieve the document again with the static `Model.find()` m
 	Customer.find({ balance: 15 }, function (err, customers) {
 		//'customers' will contain an Array of all customers with a balance of 15
 	});
+	
+If you don't have a reference to an existing Model (which is very likely in large-scale applications), you can update it in-place without finding it.
+
+	Customer.update({ name: "Bob" }, { balance: 50 }, callback);
+
+Or alternatively, if you know some of the existing properties, you can create a partial instance and update based on determined keys:
+
+	var bob = new Customer({ name: "Bob", balance: 60 });
+	bob.update([ "name" ], function (err, updateCount) {
+		//All customers named "Bob" will have their balance set to 60 and all other existing properties will remain the same
+	});
+
 
 ### Multi-tenancy
 
@@ -75,4 +87,4 @@ Otherwise, please [open an issue](https://github.com/clear/platos-model/issues/n
 
 ## License
 
-[The MIT License (MIT) Copyright](https://github.com/clear/platos-model/blob/master/LICENSE.md) - (c) 2013 Clear Learning Systems
+[The MIT License (MIT)](https://github.com/clear/platos-model/blob/master/LICENSE) - Copyright (c) 2013 Clear Learning Systems

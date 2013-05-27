@@ -113,6 +113,20 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
+		it("Model.find() should return instances of Model", function (done) {
+			Model.find(function (err, objects) {
+				_.isNull(err).should.be.ok;
+				objects.length.should.equal(2);
+				
+				_.isFunction(objects[0].save).should.be.ok;
+				_.isFunction(objects[0].remove).should.be.ok;
+				_.isFunction(objects[1].save).should.be.ok;
+				_.isFunction(objects[1].remove).should.be.ok;
+				
+				done();
+			});
+		});
+		
 		it("Model.find({ test: 'property' }) should return both documents matching test property", function (done) {
 			Model.find({ test: "property" }, function (err, objects) {
 				objects.length.should.equal(2);

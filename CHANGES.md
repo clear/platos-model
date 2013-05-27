@@ -1,5 +1,13 @@
 # platos-model Change Log
 
+## 0.4.0
+- A few bug fixes.
+- Now exposes any created Model via the global platos-model package.
+- New built-in prototypal inheritance pattern.
+
+## 0.3.0
+- Added update() support via static or instance methods.
+
 ## 0.2.0
 - Multi-tenancy support added for find(), save() and remove().
 - find() now returns instances of Model instead of Objects.

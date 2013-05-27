@@ -30,6 +30,10 @@ There's no need to define a schema, we're using document storage so you shouldn'
 		this.balance -= amount;
 	};
 	
+This Model can then be accessed anywhere from within your package just by referencing platos-model:
+	
+	var Customer = require("platos-model").Customer;
+
 ### Instantiating your Model
 
 Following along from the example above, you'll want to create an instance of your Model:

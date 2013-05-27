@@ -51,4 +51,19 @@ describe("INTEGRATION - SAVE", function () {
 			done();
 		});
 	});
+	
+	it("model.save() when defining a separate collection name should save the document", function (done) {
+		var Model = Platos.create("Model", "custom.collection");
+		var instance = new Model({ test: "property" });
+		
+		instance.save(function (err, document) {
+			_.isNull(err).should.be.ok;
+			_.size(document).should.equal(2);
+			document.should.have.property("_id");
+			document.should.have.property("test");
+			document.test.should.equal("property");
+
+			done();
+		});
+	});
 });

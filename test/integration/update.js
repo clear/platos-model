@@ -123,6 +123,27 @@ describe("INTEGRATION - UPDATE", function () {
 				});
 			});
 		});
+		
+		it("model.update() with explicity upsert should update document", function (done) {
+			var _id = instance._id;
+			var newInstance = new Model({ test: "property", test2: "property2" });
+		
+			newInstance.update([ "test" ], null, { upsert: true }, function (err) {
+				_.isNull(err).should.be.ok;
+				
+				//Re-find
+				Model.find(function (err, objects) {
+					_.isNull(err).should.be.ok;
+					_.isArray(objects).should.be.ok;
+					objects.length.should.equal(1);
+					objects[0]._id.equals(_id).should.be.ok;
+					objects[0].should.have.property("test");
+					objects[0].should.have.property("test2");
+					
+					done();
+				});
+			});
+		});
 	});
 	
 	describe("static method", function () {

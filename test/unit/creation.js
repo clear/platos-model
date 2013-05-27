@@ -30,6 +30,17 @@ describe("UNIT - CREATION", function () {
 		instance.should.have.property("test");
 	});
 	
+	it("new Platos.Model(properties) should return an object with passed in properties", function () {
+		Platos.create("Model");
+		
+		_.isFunction(Platos.Model).should.be.ok;
+		
+		var instance = new Platos.Model({ test: "property" });
+		
+		_.isObject(instance).should.be.ok;
+		instance.should.have.property("test");
+	});
+	
 	it("new Model(properties) with empty 'init' hook should call the hook and not modify object", function () {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();

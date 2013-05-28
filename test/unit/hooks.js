@@ -3,7 +3,7 @@ var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
 describe("UNIT - HOOKS", function () {
-	it("Model.pre() hook should be called before instance.save()", function (done) {
+	it("Model.pre() hook should be called before instance.test()", function (done) {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
@@ -32,7 +32,7 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Model.post() hook should be called after instance.save()", function (done) {
+	it("Model.post() hook should be called after instance.test()", function (done) {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		

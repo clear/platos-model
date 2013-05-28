@@ -1,5 +1,8 @@
 # platos-model Change Log
 
+## Unreleased
+- save() can now accept an object to save to the database without changing the instance.
+
 ## 0.4.0
 - A few bug fixes.
 - Now exposes any created Model via the global platos-model package.

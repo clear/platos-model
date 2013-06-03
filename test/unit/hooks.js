@@ -3,7 +3,7 @@ var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
 describe("UNIT - HOOKS", function () {
-	it("Model.pre() hook should be called before instance.test()", function (done) {
+	it("Model.pre() - with hook - hook should be called before instance.test()", function (done) {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
@@ -32,7 +32,7 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Model.post() hook should be called after instance.test()", function (done) {
+	it("Model.post() - with hook - hook should be called after instance.test()", function (done) {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
@@ -61,7 +61,7 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Model.pre() and Model.post() hooks should be called in proper sequence", function (done) {
+	it("Model.pre(), Model.post() - with hooks - should be called in proper sequence", function (done) {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
@@ -98,7 +98,7 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Multiple calls to Model.pre() should be called in the same sequence they're defined", function (done) {
+	it("Model.pre() - with multiple hooks - should be called in the same sequence they're defined", function (done) {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
@@ -139,7 +139,7 @@ describe("UNIT - HOOKS", function () {
 		});
 	});
 	
-	it("Model.pre() can mutate the arguments before reaching the method", function (done) {
+	it("Model.pre() - with pre hook that mutates arguments - should have new arguments when method is called", function (done) {
 		var Model = Platos.create("Model");
 		
 		Model.prototype.test = function (argument) {
@@ -157,10 +157,10 @@ describe("UNIT - HOOKS", function () {
 		instance.test("first");
 	});
 	
-	//Warning: This particular test will fail using the npm version of hooks.js - there"s
+	//Warning: This particular test will fail using the npm version of hooks.js - there's
 	//a bug passing arguments back to the original callback which hasn"t been merged in, so
 	//we"re using this repo instead - git://github.com/JamesHight/hooks-js.git
-	it("Model.pre() with callback can mutate the arguments before reaching the method", function (done) {
+	it("Model.pre() - with callback amd pre hook that mutates arguments - should have new arguments when method is called", function (done) {
 		var Model = Platos.create("Model");
 		
 		Model.prototype.test = function (argument, callback) {

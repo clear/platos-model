@@ -4,16 +4,16 @@ var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
 describe("UNIT - CREATION", function () {
-	it("Platos.create() should return a function", function () {
+	it("Platos.create() - with Model name - should return a function", function () {
 		_.isFunction(Platos.create("Model")).should.be.ok;
 	});
 	
-	it("new Platos.create() should return an object", function () {
+	it("new Platos.create() - with Model name - should return an object", function () {
 		var Model = Platos.create("Model");
 		_.isObject(new Model()).should.be.ok;
 	});
 	
-	it("Model meta-properties should not be visible", function () {
+	it("new Platos.create() - with Model name - meta-properties should not be visible", function () {
 		var Model = Platos.create("Model");
 		var instance = new Model();
 		
@@ -22,7 +22,7 @@ describe("UNIT - CREATION", function () {
 		instance.hasOwnProperty("_meta").should.not.be.ok;
 	});
 	
-	it("new Model(properties) should return an object with passed in properties", function () {
+	it("new Model() - with properties - should return an object with properties", function () {
 		var Model = Platos.create("Model");
 		var instance = new Model({ test: "property" });
 		
@@ -30,7 +30,7 @@ describe("UNIT - CREATION", function () {
 		instance.should.have.property("test");
 	});
 	
-	it("new Platos.Model(properties) should return an object with passed in properties", function () {
+	it("new Platos.Model() - with properties - should return an object with properties", function () {
 		Platos.create("Model");
 		
 		_.isFunction(Platos.Model).should.be.ok;
@@ -41,7 +41,7 @@ describe("UNIT - CREATION", function () {
 		instance.should.have.property("test");
 	});
 	
-	it("new Model(properties) with empty 'init' hook should call the hook and not modify object", function () {
+	it("new Model() - with empty 'init' hook - should call the hook and not modify object", function () {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
@@ -58,7 +58,7 @@ describe("UNIT - CREATION", function () {
 		instance.should.have.property("test2");
 	});
 	
-	it("new Model(properties) with mutative hook should call the hook and remove one property", function () {
+	it("new Model(properties) - with mutative hook - should call the hook and remove one property", function () {
 		var Model = Platos.create("Model");
 		
 		Model.pre("init", function (next, properties) {

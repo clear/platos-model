@@ -78,6 +78,14 @@ Likewise, you can easily search tenant-specific collections:
 	Customer.find("tenant", { name: "Bob" }, function (err, customers) {
 		//'customers' will contain an Array of customers named Bob in the 'tenant.Customer' collection.
 	});
+
+## Tests
+
+Run tests using **Make** or **npm**:
+
+	$ npm test
+	$ make test-unit
+	$ make test-integration
 	
 ## Contributing
 

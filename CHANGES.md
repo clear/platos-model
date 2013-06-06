@@ -1,7 +1,11 @@
 # platos-model Change Log
 
-## Unreleased
+## To-Do
+- Currently cursors only support sort(), still need to add more functions.
+
+## 0.5.0
 - save() can now accept an object to save to the database without changing the instance.
+- find() now returns a mock cursor that will allow chaining: model.find().sort().
 
 ## 0.4.0
 - A few bug fixes.

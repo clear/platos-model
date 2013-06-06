@@ -21,7 +21,7 @@ describe("INTEGRATION - FIND", function () {
 			Platos._db.collection("Model").drop(done);
 		});
 		
-		it("Model.find() should return all documents", function (done) {
+		it("Model.find() - with no arguments - should return all documents", function (done) {
 			Model.find(function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(1);
@@ -33,7 +33,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find() should return instances of Model", function (done) {
+		it("Model.find() - with no arguments - should return instances of Model", function (done) {
 			Model.find(function (err, objects) {
 				_.isFunction(objects[0].save).should.be.ok;
 				_.isFunction(objects[0].remove).should.be.ok;
@@ -42,7 +42,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find({ _id: _id }) should return a single document matching _id", function (done) {
+		it("Model.find() - with _id - should return a single document matching _id", function (done) {
 			Model.find({ _id: instance._id }, function (err, objects) {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance._id).should.be.ok;
@@ -53,7 +53,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find({ test: 'property' }) should return a single document matching test property", function (done) {
+		it("Model.find() - with property - should return a single document matching property", function (done) {
 			Model.find({ test: "property" }, function (err, objects) {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance._id).should.be.ok;
@@ -64,7 +64,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find({ test: 'missing' }) should not return any documents", function (done) {
+		it("Model.find() - when property value deosn't match - should not return any documents", function (done) {
 			Model.find({ test: "missing" }, function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(0);
@@ -73,7 +73,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find({ missing: 'property' }) should not return any documents", function (done) {
+		it("Model.find() - when property does not exist - should not return any documents", function (done) {
 			Model.find({ missing: "property" }, function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(0);
@@ -104,7 +104,7 @@ describe("INTEGRATION - FIND", function () {
 			Platos._db.collection("Model").drop(done);
 		});
 		
-		it("Model.find() should return all documents", function (done) {
+		it("Model.find() - with no arguments - should return all documents", function (done) {
 			Model.find(function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(2);
@@ -113,7 +113,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find() should return instances of Model", function (done) {
+		it("Model.find() - with no arguments - should return instances of Model", function (done) {
 			Model.find(function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(2);
@@ -127,7 +127,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find({ test: 'property' }) should return both documents matching test property", function (done) {
+		it("Model.find() - with shared property - should return both documents matching property", function (done) {
 			Model.find({ test: "property" }, function (err, objects) {
 				objects.length.should.equal(2);
 
@@ -135,13 +135,46 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find({ test2: 'property2' }) should return the document matching test2 property", function (done) {
+		it("Model.find() - with unique property - should return the document matching property", function (done) {
 			Model.find({ test2: "property2" }, function (err, objects) {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance2._id).should.be.ok;
 				objects[0].should.have.property("test2");
 
 				done();
+			});
+		});
+		
+		describe("sorting", function (done) {
+			it("Model.find().sort() - with no parameters - should return instances of Model", function (done) {
+				Model.find().sort(function (err, objects) {
+					_.isFunction(objects[0].save).should.be.ok;
+					_.isFunction(objects[0].remove).should.be.ok;
+					_.isFunction(objects[1].save).should.be.ok;
+					_.isFunction(objects[1].remove).should.be.ok;
+
+					done();
+				});
+			});
+			
+			it("Model.find().sort() - with no parameters - should return all documents in natural order", function (done) {
+				Model.find().sort(function (err, objects) {
+					objects.length.should.equal(2);
+					objects[0]._id.equals(instance._id).should.be.ok;
+					objects[1]._id.equals(instance2._id).should.be.ok;
+
+					done();
+				});
+			});
+			
+			it("Model.find().sort() - with reverse true - should return all documents in reverse order", function (done) {
+				Model.find().sort({ $natural: -1 }, function (err, objects) {
+					objects.length.should.equal(2);
+					objects[0]._id.equals(instance2._id).should.be.ok;
+					objects[1]._id.equals(instance._id).should.be.ok;
+
+					done();
+				});
 			});
 		});
 	});

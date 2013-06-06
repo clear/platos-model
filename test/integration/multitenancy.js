@@ -11,52 +11,75 @@ describe("INTEGRATION - MULTITENANCY", function () {
 		});
 	});
 	
-	it("model.save('tenant') and Model.find('tenant') should save and retrieve document from a tenant-specific collection", function (done) {
-		var Model = Platos.create("Model");
-		var tenant = new Model({ tenant: "property" });
-		
-		tenant.save("tenant", function (err, document) {
-			_.isNull(err).should.be.ok;
-			document.should.have.property("tenant");
-			
-			//Find back
-			Model.find("tenant", function (err, documents) {
+	describe("save", function () {
+		it("model.save() - with tenant - should save to a tenant-specific collection", function (done) {
+			var Model = Platos.create("Model");
+			var tenant = new Model({ tenant: "property" });
+
+			tenant.save("tenant", function (err, document) {
 				_.isNull(err).should.be.ok;
-				documents.length.should.equal(1);
-				documents[0].should.have.property("tenant");
+				document.should.have.property("tenant");
 				
 				done();
 			});
 		});
-	});
-
-	it("model.save('tenant') should be separate to global save", function (done) {
-		var Model = Platos.create("Model");
-		var global = new Model({ global: "property" });
-		var tenant = new Model({ tenant: "property" });
-
-		global.save(function (err) {
-			_.isNull(err).should.be.ok;
 		
-			tenant.save("tenant", function (err) {
+		it("model.save() - with tenant - should be separate to global save", function (done) {
+			var Model = Platos.create("Model");
+			var global = new Model({ global: "property" });
+			var tenant = new Model({ tenant: "property" });
+
+			global.save(function (err) {
 				_.isNull(err).should.be.ok;
-				
-				//Find back
-				Model.find(function (err, documents) {
+
+				tenant.save("tenant", function (err) {
 					_.isNull(err).should.be.ok;
-					documents.length.should.equal(1);
-					documents[0].should.have.property("global");
-					documents[0].should.not.have.property("tenant");
-					
-					Model.find("tenant", function (err, documents) {
+
+					//Find back
+					Model.find(function (err, documents) {
 						_.isNull(err).should.be.ok;
 						documents.length.should.equal(1);
-						documents[0].should.have.property("tenant");
-						documents[0].should.not.have.property("global");
-						
-						done();
+						documents[0].should.have.property("global");
+						documents[0].should.not.have.property("tenant");
+
+						Model.find("tenant", function (err, documents) {
+							_.isNull(err).should.be.ok;
+							documents.length.should.equal(1);
+							documents[0].should.have.property("tenant");
+							documents[0].should.not.have.property("global");
+
+							done();
+						});
 					});
 				});
+			});
+		});
+	});
+	
+	describe("find", function () {
+		var Model = Platos.create("Model");
+		
+		beforeEach(function (done) {
+			var tenant = new Model({ tenant: "property" });
+			
+			tenant.save("tenant", function (err, document) {
+				_.isNull(err).should.be.ok;
+				document.should.have.property("tenant");
+				
+				done();
+			});
+		});
+		
+		it("Model.find() - with tenant - should retrieve document from a tenant-specific collection", function (done) {
+			var Model = Platos.create("Model");
+			var tenant = new Model({ tenant: "property" });
+
+			Model.find("tenant", function (err, documents) {
+				_.isNull(err).should.be.ok;
+				documents.length.should.equal(1);
+				documents[0].should.have.property("tenant");
+
+				done();
 			});
 		});
 	});
@@ -71,7 +94,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 			instance.save("tenant", done);
 		});
 	
-		it("static Model.remove('tenant') should remove the document from the tenant-specific collection", function (done) {			
+		it("static Model.remove() - with tenant - should remove the document from the tenant-specific collection", function (done) {			
 			Model.remove("tenant", function (err) {
 				_.isNull(err).should.be.ok;
 				
@@ -83,7 +106,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 			});
 		});
 		
-		it("instance Model.remove('tenant') should remove the document from the tenant-specific collection", function (done) {			
+		it("instance Model.remove() - with tenant - should remove the document from the tenant-specific collection", function (done) {			
 			instance.remove("tenant", function (err) {
 				_.isNull(err).should.be.ok;
 				

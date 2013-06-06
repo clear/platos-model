@@ -24,7 +24,7 @@ describe("INTEGRATION - REMOVE", function () {
 	});
 	
 	describe("static method", function () {
-		it("Model.remove() should remove all documents", function (done) {
+		it("Model.remove() - with no arguments - should remove all documents", function (done) {
 			Model.remove(function (err) {
 				_.isNull(err).should.be.ok;
 
@@ -36,7 +36,7 @@ describe("INTEGRATION - REMOVE", function () {
 			});
 		});
 
-		it("Model.remove({ test2: 'property2' }) should remove one document and leave the other", function (done) {
+		it("Model.remove() - with unique property - should remove one document and leave the other", function (done) {
 			Model.remove({ test2: "property2" }, function (err) {
 				_.isNull(err).should.be.ok;
 
@@ -49,7 +49,7 @@ describe("INTEGRATION - REMOVE", function () {
 			});
 		});
 		
-		it("Model.remove({ missing: 'property' }) should not remove any documents", function (done) {
+		it("Model.remove() - with non-existant property - should not remove any documents", function (done) {
 			Model.remove({ test2: "property" }, function (err) {
 				_.isNull(err).should.be.ok;
 
@@ -63,7 +63,7 @@ describe("INTEGRATION - REMOVE", function () {
 	});
 	
 	describe("instance method", function () {
-		it("instance.remove() should remove the document called on", function (done) {
+		it("instance.remove() - with no arguments - should remove the document associated with instance", function (done) {
 			instance.remove(function (err) {
 				_.isNull(err).should.be.ok;
 

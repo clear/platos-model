@@ -140,29 +140,29 @@ describe("INTEGRATION - FIND", function () {
 				objects.length.should.equal(1);
 				objects[0]._id.equals(instance2._id).should.be.ok;
 				objects[0].should.have.property("test2");
-
+				
 				done();
 			});
 		});
 		
 		describe("sorting", function (done) {
-			it("Model.find().sort() - with no parameters - should return instances of Model", function (done) {
+			it("Model.find().sort() - with no arguments - should return instances of Model", function (done) {
 				Model.find().sort(function (err, objects) {
 					_.isFunction(objects[0].save).should.be.ok;
 					_.isFunction(objects[0].remove).should.be.ok;
 					_.isFunction(objects[1].save).should.be.ok;
 					_.isFunction(objects[1].remove).should.be.ok;
-
+					
 					done();
 				});
 			});
 			
-			it("Model.find().sort() - with no parameters - should return all documents in natural order", function (done) {
+			it("Model.find().sort() - with no arguments - should return all documents in natural order", function (done) {
 				Model.find().sort(function (err, objects) {
 					objects.length.should.equal(2);
 					objects[0]._id.equals(instance._id).should.be.ok;
 					objects[1]._id.equals(instance2._id).should.be.ok;
-
+					
 					done();
 				});
 			});
@@ -172,7 +172,27 @@ describe("INTEGRATION - FIND", function () {
 					objects.length.should.equal(2);
 					objects[0]._id.equals(instance2._id).should.be.ok;
 					objects[1]._id.equals(instance._id).should.be.ok;
-
+					
+					done();
+				});
+			});
+			
+			it("Model.find().sort() - with find parameters but no sort arguments - should return the document matching property", function (done) {
+				Model.find({ test2: "property2" }).sort(function (err, objects) {
+					objects.length.should.equal(1);
+					objects[0]._id.equals(instance2._id).should.be.ok;
+					objects[0].should.have.property("test2");
+					
+					done();
+				});
+			});
+			
+			it("Model.find().sort() - with find() parameters and sort() arguments - should return the documents with shared property in reverse order", function (done) {
+				Model.find({ test: "property" }).sort({ $natural: -1 }, function (err, objects) {
+					objects.length.should.equal(2);
+					objects[0]._id.equals(instance2._id).should.be.ok;
+					objects[1]._id.equals(instance._id).should.be.ok;
+					
 					done();
 				});
 			});

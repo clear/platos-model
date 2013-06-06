@@ -1,7 +1,8 @@
 # platos-model Change Log
 
-## To-Do
-- Currently cursors only support sort(), still need to add more functions.
+## 0.5.1
+- Fixed a couple bugs when not supply callbacks to certain methods.
+- Enabled support for all cursor functions - limit(), skip(), etc.
 
 ## 0.5.0
 - save() can now accept an object to save to the database without changing the instance.

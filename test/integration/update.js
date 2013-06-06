@@ -21,7 +21,7 @@ describe("INTEGRATION - UPDATE", function () {
 	});
 	
 	describe("model.save()", function () {
-		it("second call should update document (_id will remain the same)", function (done) {
+		it("model.save() - on second call - should not change _id", function (done) {
 			var _id = instance._id;
 			_id.should.be.ok;
 		
@@ -33,7 +33,7 @@ describe("INTEGRATION - UPDATE", function () {
 			});
 		});
 	
-		it("second call should update existing property", function (done) {
+		it("model.save() - on second call with changed property - should update property", function (done) {
 			instance.test = "property2";
 		
 			instance.save(function () {
@@ -45,7 +45,7 @@ describe("INTEGRATION - UPDATE", function () {
 			});
 		});
 	
-		it("second call should keep existing property and add new", function (done) {
+		it("model.save() - on second call with new property - should keep existing property and add new", function (done) {
 			instance.test2 = "property2";
 		
 			instance.save(function () {
@@ -61,7 +61,7 @@ describe("INTEGRATION - UPDATE", function () {
 	});
 	
 	describe("instance method", function () {
-		it("model.update() from existing Model should update document without inserting another", function (done) {
+		it("model.update() - from existing Model with new property - should update document with new property", function (done) {
 			var _id = instance._id;
 			instance.test2 = "property2";
 					
@@ -82,7 +82,7 @@ describe("INTEGRATION - UPDATE", function () {
 			});
 		});
 		
-		it("model.update() from new Model should update document without inserting another", function (done) {
+		it("model.update() - from new Model with primary key Array - should update document without inserting another", function (done) {
 			var _id = instance._id;
 			var newInstance = new Model({ test: "property", test2: "property2" });
 		
@@ -103,7 +103,7 @@ describe("INTEGRATION - UPDATE", function () {
 			});
 		});
 		
-		it("model.update() with explicit primary key query should update document", function (done) {
+		it("model.update() - from new Model with primary key query - should update document", function (done) {
 			var _id = instance._id;
 			var newInstance = new Model({ test: "property", test2: "property2" });
 		
@@ -124,7 +124,7 @@ describe("INTEGRATION - UPDATE", function () {
 			});
 		});
 		
-		it("model.update() with explicity upsert should update document", function (done) {
+		it("model.update() - with upsert - should update document", function (done) {
 			var _id = instance._id;
 			var newInstance = new Model({ test: "property", test2: "property2" });
 		
@@ -147,7 +147,7 @@ describe("INTEGRATION - UPDATE", function () {
 	});
 	
 	describe("static method", function () {
-		it("Model.update() should update document without inserting another", function (done) {
+		it("Model.update() - with primary key query - should update document without inserting another", function (done) {
 			var _id = instance._id;
 			_id.should.be.ok;
 		

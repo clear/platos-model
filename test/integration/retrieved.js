@@ -2,7 +2,7 @@ require("should");
 var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
-describe.only("INTEGRATION - RETRIEVED", function () {
+describe("INTEGRATION - RETRIEVED", function () {
 	describe("single instance", function () {
 		var Model;
 	
@@ -21,19 +21,29 @@ describe.only("INTEGRATION - RETRIEVED", function () {
 		});
 	
 		it("Model.find() - when one instance exists - should call model.retrieved() once", function (done) {
-			Model.prototype.retrieved = sinon.spy();
+			var spy = sinon.spy();
+			
+			Model.prototype.retrieved = function (callback) {
+				spy();
+				callback();
+			};
 			
 			Model.find(function () {
-				Model.prototype.retrieved.calledOnce.should.be.ok;
+				spy.calledOnce.should.be.ok;
 				done();
 			});
 		});
 		
 		it("Model.find().sort() - when one instance exists - should call model.retrieved() once", function (done) {
-			Model.prototype.retrieved = sinon.spy();
+			var spy = sinon.spy();
+			
+			Model.prototype.retrieved = function (callback) {
+				spy();
+				callback();
+			};
 			
 			Model.find().sort(function () {
-				Model.prototype.retrieved.calledOnce.should.be.ok;
+				spy.calledOnce.should.be.ok;
 				done();
 			});
 		});
@@ -77,10 +87,15 @@ describe.only("INTEGRATION - RETRIEVED", function () {
 		});
 	
 		it("Model.find() - when two instances exists - should call model.retrieved() twice", function (done) {
-			Model.prototype.retrieved = sinon.spy();
+			var spy = sinon.spy();
+			
+			Model.prototype.retrieved = function (callback) {
+				spy();
+				callback();
+			};
 			
 			Model.find(function () {
-				Model.prototype.retrieved.calledTwice.should.be.ok;
+				spy.calledTwice.should.be.ok;
 				done();
 			});
 		});

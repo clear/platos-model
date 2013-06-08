@@ -64,7 +64,7 @@ describe("INTEGRATION - FIND", function () {
 			});
 		});
 		
-		it("Model.find() - when property value deosn't match - should not return any documents", function (done) {
+		it("Model.find() - when property value doesn't match - should not return any documents", function (done) {
 			Model.find({ test: "missing" }, function (err, objects) {
 				_.isNull(err).should.be.ok;
 				objects.length.should.equal(0);

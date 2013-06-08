@@ -13,7 +13,8 @@
 	"dependencies": {
 		"mongojs": "0.7.x",
 		"hooks": "git://github.com/JamesHight/hooks-js.git",
-		"underscore": "1.4.x"
+		"underscore": "1.4.x",
+		"async": "0.2.x"
 	},
 	"devDependencies": {
 		"mocha": "1.9.x",

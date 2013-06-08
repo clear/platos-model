@@ -1,5 +1,8 @@
 # platos-model Change Log
 
+## Unreleased
+- All methods that pull instances from the database will call model.retrieve() on each instance.
+
 ## 0.5.1
 - Fixed a couple bugs when not supply callbacks to certain methods.
 - Enabled support for all cursor functions - limit(), skip(), etc.

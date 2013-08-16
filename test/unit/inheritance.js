@@ -62,7 +62,7 @@ describe("UNIT - INHERITANCE", function () {
 		model._meta.name.should.equal("Class");
 	});
 
-	it("util.inherits() - when used on two Models - should let overwrite a child Model's metadata collection with its parent's", function () {
+	it("util.inherits() - when used on two Models - should overwrite a child Model's metadata collection with its parent's", function () {
 		var ParentModel = Platos.create("ParentClass");
 		var Model = Platos.create("Class");
 		util.inherits(Model, ParentModel);
@@ -74,5 +74,19 @@ describe("UNIT - INHERITANCE", function () {
 		parent._meta.collection.should.equal("ParentClass");
 		Model._meta.collection.should.equal("ParentClass");
 		model._meta.collection.should.equal("ParentClass");
+	});
+
+	it("util.inherits() - when used on two Models and collection is explicitly set on the child - should use the specified collection for the child Model", function () {
+		var ParentModel = Platos.create("ParentClass");
+		var Model = Platos.create("Class", "Collection");
+		util.inherits(Model, ParentModel);
+
+		var parent = new ParentModel();
+		var model = new Model();
+
+		ParentModel._meta.collection.should.equal("ParentClass");
+		parent._meta.collection.should.equal("ParentClass");
+		Model._meta.collection.should.equal("Collection");
+		model._meta.collection.should.equal("Collection");
 	});
 });

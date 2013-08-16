@@ -18,6 +18,7 @@ describe("INTEGRATION - INHERITANCE", function () {
 
 	afterEach(function (done) {
 		Platos._db.collection("ParentModel").drop(done);
+		//done();
 	});
 
 	it("model.save() - with 1 parent instance and 1 child instance - should save without errors", function (done) {
@@ -27,10 +28,12 @@ describe("INTEGRATION - INHERITANCE", function () {
 		parent.save(function (err, document) {
 			_.isNull(err).should.be.ok;
 			document.should.have.property("parent");
+			document.should.not.have.property("_model");
 			
 			model.save(function (err, document) {
 				_.isNull(err).should.be.ok;
 				document.should.have.property("child");
+				document.should.not.have.property("_model");
 
 				done();
 			});
@@ -51,6 +54,18 @@ describe("INTEGRATION - INHERITANCE", function () {
 			ParentModel.find(function (err, models) {
 				_.isNull(err).should.be.ok;
 				models.length.should.equal(2);
+
+				done();
+			});
+		});
+
+		it("Model.find() - on parent with 1 parent instance and 1 child instance - instances should not contain metadata", function (done) {
+			ParentModel.find(function (err, models) {
+				_.isNull(err).should.be.ok;
+				models[0].should.have.property("parent");
+				models[1].should.have.property("child");
+				models[0].should.not.have.property("_model");
+				models[1].should.not.have.property("_model");
 
 				done();
 			});

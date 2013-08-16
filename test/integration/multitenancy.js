@@ -62,17 +62,13 @@ describe("INTEGRATION - MULTITENANCY", function () {
 		beforeEach(function (done) {
 			var tenant = new Model({ tenant: "property" });
 			
-			tenant.save("tenant", function (err, document) {
-				_.isNull(err).should.be.ok;
-				document.should.have.property("tenant");
-				
+			tenant.save("tenant", function () {
 				done();
 			});
 		});
 		
 		it("Model.find() - with tenant - should retrieve document from a tenant-specific collection", function (done) {
 			var Model = Platos.create("Model");
-			var tenant = new Model({ tenant: "property" });
 
 			Model.find("tenant", function (err, documents) {
 				_.isNull(err).should.be.ok;
@@ -85,6 +81,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 	});
 	
 	describe("remove", function () {
+		var Model;
 		var instance;
 		
 		beforeEach(function (done) {
@@ -94,7 +91,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 			instance.save("tenant", done);
 		});
 	
-		it("static Model.remove() - with tenant - should remove the document from the tenant-specific collection", function (done) {			
+		it("static Model.remove() - with tenant - should remove the document from the tenant-specific collection", function (done) {
 			Model.remove("tenant", function (err) {
 				_.isNull(err).should.be.ok;
 				
@@ -106,7 +103,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 			});
 		});
 		
-		it("instance Model.remove() - with tenant - should remove the document from the tenant-specific collection", function (done) {			
+		it("instance Model.remove() - with tenant - should remove the document from the tenant-specific collection", function (done) {
 			instance.remove("tenant", function (err) {
 				_.isNull(err).should.be.ok;
 				

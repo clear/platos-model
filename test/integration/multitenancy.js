@@ -1,5 +1,6 @@
 require("should");
 var _ = require("underscore");
+var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
 describe("INTEGRATION - MULTITENANCY", function () {
@@ -57,9 +58,10 @@ describe("INTEGRATION - MULTITENANCY", function () {
 	});
 	
 	describe("find", function () {
-		var Model = Platos.create("Model");
+		var Model;
 		
 		beforeEach(function (done) {
+			Model = Platos.create("Model");
 			var tenant = new Model({ tenant: "property" });
 			
 			tenant.save("tenant", function () {
@@ -77,6 +79,32 @@ describe("INTEGRATION - MULTITENANCY", function () {
 
 				done();
 			});
+		});
+
+		it("Model.find() - with tenant and pre() hook - should call retrieved() hook", function (done) {
+			var stub = sinon.stub();
+			
+			Model.pre("retrieved", function (next) {
+				stub.callCount.should.equal(0);
+				stub();
+				next();
+			});
+			
+			Model.find("tenant", function () {
+				stub.callCount.should.equal(1);
+				done();
+			});
+		});
+
+		it("Model.find() - with tenant and pre() hook - should pass tenant value to retrieved() hook", function (done) {
+			Model.pre("retrieved", function (next, tenant) {
+				tenant.should.equal("tenant");
+				
+				next(tenant);
+				done();
+			});
+			
+			Model.find("tenant", function () { });
 		});
 	});
 	

@@ -77,7 +77,7 @@ describe("INTEGRATION - SAVE", function () {
 			instance.should.have.property("test");
 			instance.should.not.have.property("test2");
 			document.should.not.have.property("test");
-			document.should.have.property("test2")
+			document.should.have.property("test2");
 			
 			done();
 		});

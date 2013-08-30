@@ -20,7 +20,7 @@ describe("INTEGRATION - UPDATE", function () {
 		Platos._db.collection("Model").drop(done);
 	});
 	
-	describe("model.save()", function () {
+	describe("save", function () {
 		it("model.save() - on second call - should not change _id", function (done) {
 			var _id = instance._id;
 			_id.should.be.ok;

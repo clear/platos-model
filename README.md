@@ -79,6 +79,39 @@ Likewise, you can easily search tenant-specific collections:
 		//'customers' will contain an Array of customers named Bob in the 'tenant.Customer' collection.
 	});
 
+
+### Inheritance
+
+Plato's Model encourages the use of a typical functional inheritance pattern:
+
+	var Employee = Platos.create("Employee");
+	
+	Employee.prototype.fire = function () {
+		console.log("Oh no!")
+	};
+
+	var Manager = Platos.create("Manager");
+	Manager.inherits(Employee);
+
+	var frank = new Manager();
+	frank.fire();	// > "Oh no!"
+
+This works as expected but as an added bonus, Plato's Model will internally store child classes in the same Mongo collection and handle mapping to your models automatically:
+
+	(new Employee()).save();
+	(new Manager()).save();
+	(new Employee()).save();
+
+	Employee.find(function (employees) {
+		//employees = [ Employee, Manager, Employee ];
+	});
+
+	//Coming soon (**not yet implemented**):
+	Manager.find(function (managers) {
+		//managers = [ Manager ];
+	});
+	
+
 ## Tests
 
 Run tests using **Make** or **npm**:

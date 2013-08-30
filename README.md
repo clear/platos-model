@@ -82,7 +82,7 @@ Likewise, you can easily search tenant-specific collections:
 
 ### Inheritance
 
-Plato's Model encourages the use of a typical functional inheritance pattern:
+Plato's Model encourages the use of Node's standard functional inheritance pattern:
 
 	var Employee = Platos.create("Employee");
 	
@@ -91,7 +91,7 @@ Plato's Model encourages the use of a typical functional inheritance pattern:
 	};
 
 	var Manager = Platos.create("Manager");
-	Manager.inherits(Employee);
+	util.inherits(Manager, Employee);
 
 	var frank = new Manager();
 	frank.fire();	// > "Oh no!"

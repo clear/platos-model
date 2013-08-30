@@ -106,7 +106,7 @@ This works as expected but as an added bonus, Plato's Model will internally stor
 		//employees = [ Employee, Manager, Employee ];
 	});
 
-	//But also:
+	//Coming soon (**not yet implemented**):
 	Manager.find(function (managers) {
 		//managers = [ Manager ];
 	});

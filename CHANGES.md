@@ -3,12 +3,15 @@
 ## Unreleased
 - Better find() support for util.inherits
 
+## 0.6.1
+- Fixed an inheritance issue when used with cursors.
+
 ## 0.6.0
 - All methods that pull instances from the database will call model.retrieve() on each instance.
 - Inheritance support via util.inherits() - can save multiple child models to a single collection for polymorphism-like retrieval. 
 
 ## 0.5.1
-- Fixed a couple bugs when not supply callbacks to certain methods.
+- Fixed a couple bugs when not supplying callbacks to certain methods.
 - Enabled support for all cursor functions - limit(), skip(), etc.
 
 ## 0.5.0

@@ -79,6 +79,40 @@ describe("INTEGRATION - INSERT", function () {
 				done();
 			});
 		});
+
+		it("Model.insert() - with 'save' hook and calling model.save() after - should not break save() functionality", function (done) {
+			var stub = sinon.stub();
+			var instance = new Model({ saved: "document" });
+
+			Model.pre("save", function (next) {
+				stub();
+				next();
+			});
+
+			Model.insert({ insert: "test" }, function (err) {
+				_.isNull(err).should.be.ok;
+				stub.callCount.should.equal(1);
+
+				instance.save(function (err) {
+					_.isNull(err).should.be.ok;
+					stub.callCount.should.equal(2);
+
+					//Re-find
+					Model.find(function (err, documents) {
+						//Cleanup
+						Model.removePre("save");
+
+						_.isNull(err).should.be.ok;
+						_.isArray(documents).should.be.ok;
+						documents.length.should.equal(2);
+						documents[0].should.have.property("insert");
+						documents[1].should.have.property("saved");
+
+						done();
+					});
+				});
+			});
+		});
 	});
 
 	describe("instances", function () {

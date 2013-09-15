@@ -58,12 +58,11 @@ describe("INTEGRATION - INHERITANCE", function () {
 			});
 
 			model.save(function () {
-				stub.callCount.should.equal(2);
-
 				//Cleanup
 				ParentModel.removePre("save");
 				Model.removePre("save");
 
+				stub.callCount.should.equal(2);
 				done();
 			});
 		});
@@ -92,12 +91,11 @@ describe("INTEGRATION - INHERITANCE", function () {
 			var model = new ModelLate();
 
 			model.save(function () {
-				stub.callCount.should.equal(2);
-
 				//Cleanup
 				ParentModelEarly.removePre("save");
 				ModelLate.removePre("save");
-
+				
+				stub.callCount.should.equal(2);
 				done();
 			});
 		});

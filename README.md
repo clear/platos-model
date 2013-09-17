@@ -63,7 +63,8 @@ Or alternatively, if you know some of the existing properties, you can create a 
 
 	var bob = new Customer({ name: "Bob", balance: 60 });
 	bob.update([ "name" ], function (err, updateCount) {
-		//All customers named "Bob" will have their balance set to 60 and all other existing properties will remain the same
+		//All customers named "Bob" will have their balance set to 60
+		//and all other existing properties will remain the same
 	});
 
 
@@ -111,6 +112,11 @@ This works as expected but as an added bonus, Plato's Model will internally stor
 		//managers = [ Manager ];
 	});
 	
+
+### And Much More...
+
+The documentation is lacking at the moment so explore the codebase and look at the tests to get a feeling for what else is possible!
+
 
 ## Tests
 

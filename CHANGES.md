@@ -3,6 +3,10 @@
 ## Unreleased
 - Better find() support for util.inherits
 
+## 0.7.0
+- Added Model.insert() support for bulk-inserting of documents into a collection.
+- Added Model.drop() support for completely removing collections.
+
 ## 0.6.1
 - Fixed an inheritance issue when used with cursors.
 

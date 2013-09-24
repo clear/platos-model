@@ -45,7 +45,7 @@ describe("UNIT - CREATION", function () {
 		var Model = Platos.create("Model");
 		var stub = sinon.stub();
 		
-		Model.pre("init", function (next, properties) {
+		Model.prototype.pre("init", function (next, properties) {
 			stub();
 			next(properties);
 		});
@@ -61,7 +61,7 @@ describe("UNIT - CREATION", function () {
 	it("new Model(properties) - with mutative hook - should call the hook and remove one property", function () {
 		var Model = Platos.create("Model");
 		
-		Model.pre("init", function (next, properties) {
+		Model.prototype.pre("init", function (next, properties) {
 			delete properties.test2;
 			next(properties);
 		});

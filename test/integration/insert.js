@@ -62,7 +62,7 @@ describe("INTEGRATION - INSERT", function () {
 		it("Model.insert() - with single document and 'save' hook - should call the hook", function (done) {
 			var stub = sinon.stub();
 
-			Model.pre("save", function (next) {
+			Model.prototype.pre("save", function (next) {
 				stub.callCount.should.equal(0);
 				stub();
 				next();
@@ -70,7 +70,7 @@ describe("INTEGRATION - INSERT", function () {
 
 			Model.insert({ hook: "test" }, function (err, documents) {
 				//Cleanup
-				Model.removePre("save");
+				Model.prototype.removePre("save");
 
 				_.isNull(err).should.be.ok;
 				_.isArray(documents).should.be.ok;
@@ -84,7 +84,7 @@ describe("INTEGRATION - INSERT", function () {
 			var stub = sinon.stub();
 			var instance = new Model({ saved: "document" });
 
-			Model.pre("save", function (next) {
+			Model.prototype.pre("save", function (next) {
 				stub();
 				next();
 			});
@@ -100,7 +100,7 @@ describe("INTEGRATION - INSERT", function () {
 					//Re-find
 					Model.find(function (err, documents) {
 						//Cleanup
-						Model.removePre("save");
+						Model.prototype.removePre("save");
 
 						_.isNull(err).should.be.ok;
 						_.isArray(documents).should.be.ok;
@@ -155,7 +155,7 @@ describe("INTEGRATION - INSERT", function () {
 		it("Model.insert() - with single instance and 'save' hook - should call the hook", function (done) {
 			var stub = sinon.stub();
 
-			Model.pre("save", function (next) {
+			Model.prototype.pre("save", function (next) {
 				stub.callCount.should.equal(0);
 				stub();
 				next();
@@ -163,7 +163,7 @@ describe("INTEGRATION - INSERT", function () {
 
 			Model.insert(new Model({ hook: "test" }), function (err, documents) {
 				//Cleanup
-				Model.removePre("save");
+				Model.prototype.removePre("save");
 
 				_.isNull(err).should.be.ok;
 				_.isArray(documents).should.be.ok;
@@ -176,14 +176,14 @@ describe("INTEGRATION - INSERT", function () {
 		it("Model.insert() - with two instances and 'save' hook - should call hook twice", function (done) {
 			var stub = sinon.stub();
 
-			Model.pre("save", function (next) {
+			Model.prototype.pre("save", function (next) {
 				stub();
 				next();
 			});
 
 			Model.insert([ new Model({ hook: "test" }), new Model({ hook: "test2" }) ], function (err, documents) {
 				//Cleanup
-				Model.removePre("save");
+				Model.prototype.removePre("save");
 
 				_.isNull(err).should.be.ok;
 				_.isArray(documents).should.be.ok;

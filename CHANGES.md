@@ -1,6 +1,8 @@
 # platos-model Change Log
 
 ## Unreleased
+- Replaced the hook library which has enhanced functionality slightly.
+- Changed the inheritance model from util.inherits to Model.inherits().
 - Better find() support for util.inherits
 
 ## 0.7.0

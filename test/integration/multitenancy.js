@@ -84,7 +84,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 		it("Model.find() - with tenant and pre() hook - should call retrieved() hook", function (done) {
 			var stub = sinon.stub();
 			
-			Model.pre("retrieved", function (next) {
+			Model.prototype.pre("retrieved", function (next) {
 				stub.callCount.should.equal(0);
 				stub();
 				next();
@@ -97,7 +97,7 @@ describe("INTEGRATION - MULTITENANCY", function () {
 		});
 
 		it("Model.find() - with tenant and pre() hook - should pass tenant value to retrieved() hook", function (done) {
-			Model.pre("retrieved", function (next, tenant) {
+			Model.prototype.pre("retrieved", function (next, tenant) {
 				tenant.should.equal("tenant");
 				
 				next(tenant);

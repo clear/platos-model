@@ -86,7 +86,7 @@ describe("INTEGRATION - SAVE", function () {
 	it("model.save() - with pre hook that mutates the object - should save and add _id to the Model instance", function (done) {
 		var Model = Platos.create("Model");
 		
-		Model.pre("save", function (next, object, callback) {
+		Model.prototype.pre("save", function (next, callback) {
 			next({ test: "replace" }, callback);
 		});
 		
@@ -104,8 +104,8 @@ describe("INTEGRATION - SAVE", function () {
 	it("model.save() - with empty pre hook - should save and add _id to the instance", function (done) {
 		var Model = Platos.create("Model");
 		
-		Model.pre("save", function (next, object, callback) {
-			next(object, callback);
+		Model.prototype.pre("save", function (next, callback) {
+			next(callback);
 		});
 		
 		var instance = new Model({ test: "property" });

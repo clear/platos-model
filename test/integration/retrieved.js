@@ -51,7 +51,7 @@ describe("INTEGRATION - RETRIEVED", function () {
 		it("Model.find() - when one instance exists and pre() hook - should call retrieved() hook", function (done) {
 			var stub = sinon.stub();
 			
-			Model.pre("retrieved", function (next) {
+			Model.prototype.pre("retrieved", function (next) {
 				stub.callCount.should.equal(0);
 				stub();
 				next();

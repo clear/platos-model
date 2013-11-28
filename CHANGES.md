@@ -1,7 +1,11 @@
 # platos-model Change Log
 
+## Backlog
+- Better find() support for inheritance.
+
 ## Unreleased
-- Better find() support for util.inherits
+- Replaced the hook library which has enhanced functionality slightly.
+- Changed the inheritance model from util.inherits to Model.inherits().
 
 ## 0.7.0
 - Added Model.insert() support for bulk-inserting of documents into a collection.

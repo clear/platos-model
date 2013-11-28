@@ -6,6 +6,7 @@
 ## Unreleased
 - Replaced the hook library which has enhanced functionality slightly.
 - Changed the inheritance model from util.inherits to Model.inherits().
+- New in-built utility functions for sanitising a document upon storage.
 
 ## 0.7.0
 - Added Model.insert() support for bulk-inserting of documents into a collection.

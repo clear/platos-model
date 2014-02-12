@@ -15,7 +15,7 @@ describe("UNIT - HOOKS", function () {
 		};
 		
 		//Pre-hook will be called first
-		Model.pre("test", function (next) {
+		Model.prototype.pre("test", function (next) {
 			stub.callCount.should.equal(0);
 			stub();
 			
@@ -44,7 +44,7 @@ describe("UNIT - HOOKS", function () {
 		};
 		
 		//Post-hook will be called second
-		Model.post("test", function (next) {
+		Model.prototype.post("test", function (next) {
 			stub.callCount.should.equal(1);
 			stub();
 			
@@ -73,7 +73,7 @@ describe("UNIT - HOOKS", function () {
 		};
 		
 		//Pre-hook will be called first
-		Model.pre("test", function (next) {
+		Model.prototype.pre("test", function (next) {
 			stub.callCount.should.equal(0);
 			stub();
 			
@@ -81,7 +81,7 @@ describe("UNIT - HOOKS", function () {
 		});
 		
 		//Post-hook will be called third
-		Model.post("test", function (next) {
+		Model.prototype.post("test", function (next) {
 			stub.callCount.should.equal(2);
 			stub();
 			
@@ -109,21 +109,21 @@ describe("UNIT - HOOKS", function () {
 			callback();
 		};
 		
-		Model.pre("test", function (next) {
+		Model.prototype.pre("test", function (next) {
 			stub.callCount.should.equal(0);
 			stub();
 			
 			next();
 		});
 		
-		Model.pre("test", function (next) {
+		Model.prototype.pre("test", function (next) {
 			stub.callCount.should.equal(1);
 			stub();
 			
 			next();
 		});
 		
-		Model.pre("test", function (next) {
+		Model.prototype.pre("test", function (next) {
 			stub.callCount.should.equal(2);
 			stub();
 			
@@ -147,7 +147,7 @@ describe("UNIT - HOOKS", function () {
 			done();
 		};
 		
-		Model.pre("test", function (next, argument) {
+		Model.prototype.pre("test", function (next, argument) {
 			argument.should.equal("first");
 			next("second");
 		});
@@ -168,7 +168,7 @@ describe("UNIT - HOOKS", function () {
 			callback("dad on");
 		};
 		
-		Model.pre("test", function (next, argument, callback) {
+		Model.prototype.pre("test", function (next, argument, callback) {
 			argument.should.equal("she");
 			next("turned my", callback);
 		});

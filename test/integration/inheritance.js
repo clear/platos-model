@@ -1,16 +1,15 @@
 require("should");
 var _ = require("underscore");
-var util = require("util");
 var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
 describe("INTEGRATION - INHERITANCE", function () {
 	var ParentModel, Model;
 
-	before(function (done) {
+	beforeEach(function (done) {
 		ParentModel = Platos.create("ParentModel");
 		Model = Platos.create("Model");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		Platos._db.collection("ParentModel").drop(function () {
 			done();
@@ -18,6 +17,7 @@ describe("INTEGRATION - INHERITANCE", function () {
 	});
 
 	afterEach(function (done) {
+		return done();
 		Platos._db.collection("ParentModel").drop(done);
 	});
 
@@ -41,28 +41,124 @@ describe("INTEGRATION - INHERITANCE", function () {
 			});
 		});
 
+		it("model.save() - with three levels of inheritance - should save without errors", function (done) {
+			var stub = sinon.stub();
+			var Child = Platos.create("Child");
+
+			Child.inherits(Model);
+
+			var child = new Child({ inception: "not really" });
+
+			child.save(function (err, document) {
+				_.isNull(err).should.be.ok;
+				document.should.have.property("inception");
+
+				done();
+			});
+		});
+
 		it("model.save() - with pre hook on parent and child - should call both hooks", function (done) {
 			var stub = sinon.stub();
 			var model = new Model();
 
-			ParentModel.pre("save", function (next, callback) {
-				stub.callCount.should.equal(0);
-				stub();
-				next(callback);
-			});
-
-			Model.pre("save", function (next, callback) {
+			ParentModel.prototype.pre("save", function (next, callback) {
 				stub.callCount.should.equal(1);
 				stub();
 				next(callback);
 			});
 
-			model.save(function () {
-				//Cleanup
-				ParentModel.removePre("save");
-				Model.removePre("save");
+			Model.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(0);
+				stub();
+				next(callback);
+			});
 
+			model.save(function () {
 				stub.callCount.should.equal(2);
+				done();
+			});
+		});
+
+		it("model.save() - with three levels of inheritance and pre hooks on all - should call all hooks", function (done) {
+			var stub = sinon.stub();
+			var Child = Platos.create("Child");
+
+			Child.inherits(Model);
+
+			var child = new Child();
+
+			ParentModel.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(2);
+				stub();
+				next(callback);
+			});
+
+			Model.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(1);
+				stub();
+				next(callback);
+			});
+
+			Child.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(0);
+				stub();
+				next(callback);
+			});
+
+			child.save(function () {
+				stub.callCount.should.equal(3);
+				done();
+			});
+		});
+
+		it("model.save() - with three levels of inheritance and pre hooks on all - each pre hook should access properties", function (done) {
+			var Child = Platos.create("Child");
+
+			Child.inherits(Model);
+
+			var child = new Child({ important: "property"});
+
+			ParentModel.prototype.pre("save", function (next, callback) {
+				this.should.have.property("important");
+				next(callback);
+			});
+			
+			Model.prototype.pre("save", function (next, callback) {
+				this.should.have.property("important");
+				next(callback);
+			});
+
+			Child.prototype.pre("save", function (next, callback) {
+				this.should.have.property("important");
+				next(callback);
+			});
+
+			child.save(function (err, document) {
+				document.should.have.property("important");
+				done();
+			});
+		});
+
+		it("model.save() - with pre hook parent and different child - should only call the parent hook", function (done) {
+			var Model2 = Platos.create("Model2");
+			var stub = sinon.stub();
+			var model = new Model();
+
+			Model2.inherits(ParentModel);
+
+			ParentModel.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(0);
+				stub();
+				next(callback);
+			});
+
+			Model2.prototype.pre("save", function (next, callback) {
+				stub();
+				next(callback);
+			});
+
+			model.save(function () {
+				stub.callCount.should.equal(1);
 				done();
 			});
 		});
@@ -71,8 +167,8 @@ describe("INTEGRATION - INHERITANCE", function () {
 			var stub = sinon.stub();
 			var ParentModelEarly = Platos.create("ParentModelEarly", "ParentModel");
 
-			ParentModelEarly.pre("save", function (next, callback) {
-				stub.callCount.should.equal(0);
+			ParentModelEarly.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(1);
 				stub();
 				next(callback);
 			});
@@ -80,10 +176,10 @@ describe("INTEGRATION - INHERITANCE", function () {
 			var ModelLate = Platos.create("ModelLate");
 
 			//Note that the model is inherited after parent hooks have been defined
-			util.inherits(ModelLate, ParentModelEarly);
+			ModelLate.inherits(ParentModelEarly);
 
-			ModelLate.pre("save", function (next, callback) {
-				stub.callCount.should.equal(1);
+			ModelLate.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(0);
 				stub();
 				next(callback);
 			});
@@ -91,11 +187,37 @@ describe("INTEGRATION - INHERITANCE", function () {
 			var model = new ModelLate();
 
 			model.save(function () {
-				//Cleanup
-				ParentModelEarly.removePre("save");
-				ModelLate.removePre("save");
-				
 				stub.callCount.should.equal(2);
+				done();
+			});
+		});
+
+		it("model.save() - with pre hook on parent but different late-bound inherited child - should only call the parent hook", function (done) {
+			var stub = sinon.stub();
+			var ParentModelEarly = Platos.create("ParentModelEarly", "ParentModel");
+
+			ParentModelEarly.prototype.pre("save", function (next, callback) {
+				stub.callCount.should.equal(0);
+				stub();
+				next(callback);
+			});
+
+			var ModelLate = Platos.create("ModelLate");
+			var ModelLate2 = Platos.create("ModelLate2");
+
+			//Note that the model is inherited after parent hooks have been defined
+			ModelLate.inherits(ParentModelEarly);
+			ModelLate2.inherits(ParentModelEarly);
+
+			ModelLate2.prototype.pre("save", function (next, callback) {
+				stub();
+				next(callback);
+			});
+
+			var model = new ModelLate();
+
+			model.save(function () {
+				stub.callCount.should.equal(1);
 				done();
 			});
 		});
@@ -108,8 +230,7 @@ describe("INTEGRATION - INHERITANCE", function () {
 				CustomParentModel = Platos.create("CustomParentModel");
 				CustomModel = Platos.create("Model", "ParentModel");
 
-				//Model.inherits(ParentModel);
-				util.inherits(Model, ParentModel);
+				Model.inherits(ParentModel);
 			});
 
 			it("model.save() - on child instance - should save to custom collection name", function (done) {

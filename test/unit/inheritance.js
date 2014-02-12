@@ -1,6 +1,5 @@
 require("should");
 var _ = require("underscore");
-var util = require("util");
 var sinon = require("sinon");
 var Platos = require("../../lib/platos-model");
 
@@ -25,7 +24,7 @@ describe("UNIT - INHERITANCE", function () {
 		ParentModel.prototype.method = sinon.stub().returns("I got that feeling again");
 
 		var Model = Platos.create("Class");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		var instance = new Model();
 
@@ -36,7 +35,7 @@ describe("UNIT - INHERITANCE", function () {
 	it("instance.method() - when child class has custom 'method()' - should retain 'method' function", function () {
 		var ParentModel = Platos.create("ParentClass");
 		var Model = Platos.create("Class");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		Model.prototype.method = sinon.stub().returns("All on my own");
 
@@ -48,10 +47,10 @@ describe("UNIT - INHERITANCE", function () {
 		instance.method().should.equal("All on my own");
 	});
 
-	it("util.inherits() - when used on two Models - should let each Model's instances retain their metadata name", function () {
+	it("Model.inherits() - when used on two Models - should let each Model's instances retain their metadata name", function () {
 		var ParentModel = Platos.create("ParentClass");
 		var Model = Platos.create("Class");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		var parent = new ParentModel();
 		var model = new Model();
@@ -62,10 +61,10 @@ describe("UNIT - INHERITANCE", function () {
 		model._meta.name.should.equal("Class");
 	});
 
-	it("util.inherits() - when used on two Models - should overwrite a child Model's metadata collection with its parent's", function () {
+	it("Model.inherits() - when used on two Models - should overwrite a child Model's metadata collection with its parent's", function () {
 		var ParentModel = Platos.create("ParentClass");
 		var Model = Platos.create("Class");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		var parent = new ParentModel();
 		var model = new Model();
@@ -76,10 +75,10 @@ describe("UNIT - INHERITANCE", function () {
 		model._meta.collection.should.equal("ParentClass");
 	});
 
-	it("util.inherits() - when used on two Models and the Parent is never instantiated - should overwrite a child Model's metadata collection with its parent's", function () {
+	it("Model.inherits() - when used on two Models and the Parent is never instantiated - should overwrite a child Model's metadata collection with its parent's", function () {
 		var ParentModel = Platos.create("ParentClass");
 		var Model = Platos.create("Class");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		var model = new Model();
 
@@ -88,10 +87,10 @@ describe("UNIT - INHERITANCE", function () {
 		model._meta.collection.should.equal("ParentClass");
 	});
 
-	it("util.inherits() - when used on two Models and collection is explicitly set on the parent - should use the specified collection for the both Models", function () {
+	it("Model.inherits() - when used on two Models and collection is explicitly set on the parent - should use the specified collection for the both Models", function () {
 		var ParentModel = Platos.create("ParentClass", "Collection");
 		var Model = Platos.create("Class");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		var parent = new ParentModel();
 		var model = new Model();
@@ -102,10 +101,10 @@ describe("UNIT - INHERITANCE", function () {
 		model._meta.collection.should.equal("Collection");
 	});
 
-	it("util.inherits() - when used on two Models and collection is explicitly set on the child - should use the specified collection for the child Model", function () {
+	it("Model.inherits() - when used on two Models and collection is explicitly set on the child - should use the specified collection for the child Model", function () {
 		var ParentModel = Platos.create("ParentClass");
 		var Model = Platos.create("Class", "Collection");
-		util.inherits(Model, ParentModel);
+		Model.inherits(ParentModel);
 
 		var parent = new ParentModel();
 		var model = new Model();

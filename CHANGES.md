@@ -3,7 +3,7 @@
 ## Backlog
 - Better find() support for inheritance.
 
-## Unreleased
+## 0.8.0
 - Replaced the hook library which has enhanced functionality slightly.
 - Changed the inheritance model from util.inherits to Model.inherits().
 - New in-built utility functions for sanitising a document upon storage.
